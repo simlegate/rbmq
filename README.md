@@ -1,6 +1,6 @@
 # Rumq
 
-TODO: Write a gem description
+Implementation of Message Queue in Ruby
 
 ## Installation
 
