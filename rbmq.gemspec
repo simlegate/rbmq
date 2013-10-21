@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'rumq/version'
+require 'rbmq/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "rumq"
+  spec.name          = "rbmq"
   spec.version       = Rumq::VERSION
   spec.authors       = ["都是牛奶装什么特仑苏丶"]
   spec.email         = ["simlegate@163.com"]

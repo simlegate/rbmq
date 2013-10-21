@@ -1,3 +1,3 @@
-module Rumq
+module Rbmq
   VERSION = "0.0.1"
 end
