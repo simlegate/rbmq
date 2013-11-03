@@ -1,1 +1,1 @@
-require_relative '../lib/core_ext/hash'
+require_relative '../lib/rbmq'
