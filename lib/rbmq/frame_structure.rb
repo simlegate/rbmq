@@ -1,5 +1,6 @@
-require 'frame_structure/body'
-require 'frame_structure/header'
+require_relative 'frame_structure/body'
+require_relative 'frame_structure/header'
+require_relative 'frame_structure/command'
 
 #
 # Frame format
@@ -19,6 +20,12 @@ module Rbmq
 	create_headers_by header_entries
 	@body = Body.new body
       end
+
+      # provide remove_header by key
+      #
+      # provide add_header by key and value
+      #
+      # Maybe header consists of key and value
 
       private
       def create_headers_by header_entries
