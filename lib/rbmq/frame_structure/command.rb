@@ -3,11 +3,11 @@ module Rbmq
     class Command
 
       def initialize content
-	@content = content
+        @content = content
       end
 
       def upcase?
-	@content.chomp.upcase?
+        @content.chomp.upcase?
       end
 
       def included?

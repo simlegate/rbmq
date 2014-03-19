@@ -16,9 +16,9 @@ module Rbmq
       attr_accessor :command, :headers, :body
 
       def initialize command, header_entries, body
-	@command = command
-	create_headers_by header_entries
-	@body = Body.new body
+        @command = command
+        create_headers_by header_entries
+        @body = Body.new body
       end
 
       # provide remove_header by key
@@ -29,7 +29,7 @@ module Rbmq
 
       private
       def create_headers_by header_entries
-	@headers = header_entries.map { |entry| Header.new(entry) }
+        @headers = header_entries.map { |entry| Header.new(entry) }
       end
     end
   end

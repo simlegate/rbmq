@@ -1,4 +1,5 @@
 module Rbmq
+  puts constants
   class FrameBuilder
 
     def initialize frame_text
@@ -7,8 +8,12 @@ module Rbmq
 
     private
     def parse_command
-      raise Errors::InvalidLowerCaseCommand unless FrameStructure::Command.new(@text.each_line.first).upcase?
-      raise Errors::InvalidServerCommand unless FrameStructure::Command.new(@text.each_line.first).included?
+      unless FrameStructure::Command.new(@text.each_line.first).upcase?
+        raise Errors::InvalidLowerCaseCommand
+      end
+      unless FrameStructure::Command.new(@text.each_line.first).included?
+        raise Errors::InvalidServerCommand
+      end
     end
   end
 end
