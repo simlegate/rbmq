@@ -19,4 +19,11 @@ describe Hash do
     end
   end
 
+  context '#serialize' do
+    let(:hash) {{'a' => 2, 'b' => 3}}
+    it 'join hash with \n' do
+      expect(hash.serialize).to eq('a:2\nb:3')
+    end
+  end
+
 end

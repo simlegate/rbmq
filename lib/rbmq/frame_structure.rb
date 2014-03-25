@@ -21,15 +21,17 @@ module Rbmq
         @body = Body.new body
       end
 
-      # provide remove_header by key
-      #
-      # provide add_header by key and value
-      #
-      # Maybe header consists of key and value
+      def to_s
+        command.to_s + "\n" + inspect_headers + "\n\n" + @body.to_s
+      end
+
+      def inspect_headers
+        headers.map(&:to_s).join('\n')
+      end
 
       private
       def create_headers_by header_entries
-        @headers = header_entries.map { |entry| Header.new(entry) }
+        @headers = header_entries.map { |entry| Header.new(entry[0], entry[1]) }
       end
     end
   end

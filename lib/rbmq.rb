@@ -14,5 +14,5 @@ require_relative "rbmq/server"
 
 
 module Rbmq
-  VALID_COMMAND_COLLECTIONS = %w(ERROR SEND)
+  VALID_COMMAND_COLLECTIONS = %w(ERROR SEND CONNECT)
 end

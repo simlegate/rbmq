@@ -6,7 +6,9 @@ module Rbmq
       end
 
       def receive_data data
-        send_data ">>>you sent: #{data}"
+        puts data
+        frame = FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
+        send_data frame.to_s
         close_connection if data =~ /quit/i
       end
 

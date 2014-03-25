@@ -5,4 +5,10 @@ class Hash
     end
     self
   end
+
+  def serialize
+    self.map do |h|
+      [h[0],h[1]].join(':')
+    end.join('\n')
+  end
 end

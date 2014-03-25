@@ -1,19 +1,27 @@
+# encoding: UTF-8
+
 module Rbmq
-  puts constants
   class FrameBuilder
 
     def initialize frame_text
       @text = frame_text
     end
 
+    def command
+      to_enum.first
+    end
+
+    def header_entries
+      to_enum[1..-3]
+    end
+
+    def body
+      to_enum.last
+    end
+
     private
-    def parse_command
-      unless FrameStructure::Command.new(@text.each_line.first).upcase?
-        raise Errors::InvalidLowerCaseCommand
-      end
-      unless FrameStructure::Command.new(@text.each_line.first).included?
-        raise Errors::InvalidServerCommand
-      end
+    def to_enum
+      @text.lines.map(&:chomp)
     end
   end
 end
