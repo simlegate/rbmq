@@ -19,6 +19,10 @@ module Rbmq
       to_enum.last
     end
 
+    def frame
+      Rbmq::FrameStructure::Frame.new(command, header_entries, body)
+    end
+
     private
     def to_enum
       @text.lines.map(&:chomp)

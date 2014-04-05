@@ -12,7 +12,16 @@ require_relative "rbmq/errors"
 
 require_relative "rbmq/server"
 
+require_relative "rbmq/dispatcher"
+
+require_relative "rbmq/logger"
 
 module Rbmq
+  ROOT = File.expand_path("../../", __FILE__).to_s
+
   VALID_COMMAND_COLLECTIONS = %w(ERROR SEND CONNECT)
+
+  def self.logger
+    Rbmq::Logger.new.instance
+  end
 end
