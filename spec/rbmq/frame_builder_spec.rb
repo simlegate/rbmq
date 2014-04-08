@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 module Rbmq
-  describe FrameBuilder do
+  describe FrameParser do
 
     let(:base_frame) {File.open(load_fixture('base_frame')).read}
-    let(:builder) { Rbmq::FrameBuilder.new(base_frame) }
+    let(:builder) { Rbmq::FrameParser.new(base_frame) }
     context 'parse command from frame text' do
       it "should not raise error when command is capitalized" do
         expect(builder.command).to eq('COMMAND')

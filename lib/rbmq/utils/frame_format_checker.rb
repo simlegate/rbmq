@@ -1,7 +1,10 @@
 module Rbmq
   module Utils
     class FrameFormatChecker
+      include Validator
+
       def initialize frame_builder
+        p frame_builder
         @builder = frame_builder
       end
 
@@ -13,9 +16,8 @@ module Rbmq
 
       private
       def check_command
-        command = FrameStructure::Command.new(@builder.command)
-        raise Errors::InvalidLowerCaseCommand unless command.upcase?
-        raise Errors::InvalidServerCommand unless command.included?
+        raise Errors::InvalidLowerCaseCommand unless @builder.command.upcase?
+        raise Errors::InvalidServerCommand unless valid_command?(@builder.command)
       end
 
       def check_headers
