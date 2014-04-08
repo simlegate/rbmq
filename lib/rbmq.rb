@@ -3,6 +3,7 @@ require "rbmq/version"
 require "core_ext/hash"
 require "core_ext/string"
 
+require_relative "rbmq/utils"
 require_relative "rbmq/frame_structure"
 require_relative "rbmq/frame_builder"
 require_relative "rbmq/errors"

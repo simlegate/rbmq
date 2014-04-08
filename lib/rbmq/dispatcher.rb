@@ -1,5 +1,7 @@
 module Rbmq
   class Dispatcher
+    include Utils::UUID
+
     def initialize request_frame
       @request_frame = request_frame
     end
@@ -7,9 +9,11 @@ module Rbmq
     def run
       case @request_frame.command
       when "CONNECT"
-        FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
+        FrameStructure::Frame.new('CONNECTED', {version: 1.0}, "\x00")
       when "SEND"
-        FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
+        QueueManager.current.enqueue(
+          @request_frame.headers[:destination], @response_frame)
+        Rbmq::FrameStructure::Frame.new('RECEIPT', {:'receipt-id' => general_uuid, version: 1.0}, "\x00")
       when "SUBSCRIBE"
         FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
       when "UNSUBSCRIBE"
@@ -27,11 +31,8 @@ module Rbmq
       when "DISCONNECT"
         FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
       else
-        FrameStructure::Frame.new('ERROR', {version: 1}, "\x00")
+        FrameStructure::Frame.new('ERROR', {version: 1.0}, "\x00")
       end
-    end
-
-    def response_frame
     end
   end
 end

@@ -7,11 +7,12 @@ module Rbmq
       end
 
       def receive_data data
+        # TODO: why
         Rbmq.logger.info 'receive request from client'
-        Rbmq.logger.info data
+        Rbmq.logger.info "\n"+data
         response_frame = Rbmq::Dispatcher.new(Rbmq::FrameBuilder.new(data).frame).run
         Rbmq.logger.info 'send response form server'
-        Rbmq.logger.info response_frame.to_s
+        Rbmq.logger.info "\n"+response_frame.to_s
         send_data response_frame.to_s
         # => close_connection if data =~ /quit/i
       end

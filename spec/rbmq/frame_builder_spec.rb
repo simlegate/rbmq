@@ -13,7 +13,7 @@ module Rbmq
 
     context "parse header entries from frame text" do
       it 'should be instance of Array' do
-        expect(builder.header_entries).to eq(['header1:value1', 'header2:value2'])
+        expect(builder.header_entries).to eq({header1: 'value1', header2: 'value2'})
       end
     end
 

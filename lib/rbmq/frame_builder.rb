@@ -2,6 +2,7 @@
 
 module Rbmq
   class FrameBuilder
+    include Utils::Convertor
 
     def initialize frame_text
       @text = frame_text
@@ -12,7 +13,7 @@ module Rbmq
     end
 
     def header_entries
-      to_enum[1..-3]
+      to_hash_of to_enum[1..-3]
     end
 
     def body
@@ -20,12 +21,17 @@ module Rbmq
     end
 
     def frame
-      Rbmq::FrameStructure::Frame.new(command, header_entries, body)
+      frame_format_checker.run
+      @frame ||= Rbmq::FrameStructure::Frame.new(command, header_entries, body)
     end
 
     private
     def to_enum
-      @text.lines.map(&:chomp)
+      @enum ||= @text.lines.map(&:chomp)
+    end
+
+    def frame_format_checker
+      Utils::FrameFormatChecker.new(self)
     end
   end
 end

@@ -13,11 +13,14 @@ module Rbmq
   module FrameStructure
     class Frame
 
+      include Utils::Convertor
+
       attr_accessor :command, :headers, :body
 
       def initialize command, header_entries, body
         @command = command
-        create_headers_by header_entries
+        @headers = header_entries
+        # => create_headers_by header_entries
         @body = Body.new body
       end
 
@@ -25,13 +28,13 @@ module Rbmq
         command.to_s + "\n" + inspect_headers + "\n\n" + @body.to_s
       end
 
-      def inspect_headers
-        headers.map(&:to_s).join('\n')
-      end
-
       private
       def create_headers_by header_entries
         @headers = header_entries.map { |entry| Header.new(entry[0], entry[1]) }
+      end
+
+      def inspect_headers
+        to_ary_of(headers).map(&:to_s).join("\n")
       end
     end
   end
