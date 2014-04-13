@@ -4,7 +4,6 @@ module Rbmq
       include Validator
 
       def initialize frame_builder
-        p frame_builder
         @builder = frame_builder
       end
 

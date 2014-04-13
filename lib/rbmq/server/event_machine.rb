@@ -10,7 +10,9 @@ module Rbmq
         # TODO: why
         Rbmq.logger.info 'receive request from client'
         Rbmq.logger.info "\n"+data
-        response_frame = Rbmq::Dispatcher.new(Rbmq::FrameFactory.produce_by_str(data)).run
+        dispatcher = Rbmq::Dispatcher.new(Rbmq::FrameFactory.produce_by_str(data))
+        dispatcher.connection = self
+        response_frame = dispatcher.run
         Rbmq.logger.info 'send response form server'
         Rbmq.logger.info "\n"+response_frame.to_str
         send_data response_frame.to_str

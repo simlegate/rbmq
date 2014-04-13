@@ -31,10 +31,15 @@ module Rbmq
         receipt
       when "DISCONNECT"
         # close current socket connection
+        @connection.close_connection_after_writing
         receipt
       else
         FrameStructure::Frame.new('ERROR', {version: 1.0}, "\x00")
       end
+    end
+
+    def connection= connection
+      @connection = connection
     end
 
     private

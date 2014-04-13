@@ -7,7 +7,7 @@ module Rbmq
 
     def frame
       frame_format_checker.run
-      @frame ||= Rbmq::FrameStructure::Frame.new(command, header_entries, body)
+      @frame ||= FrameStructure::Frame.new(command, header_entries, body)
     end
 
     def frame_format_checker
