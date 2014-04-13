@@ -24,7 +24,7 @@ module Rbmq
         @body = Body.new body
       end
 
-      def to_s
+      def to_str
         command.to_s + "\n" + inspect_headers + "\n\n" + @body.to_s
       end
 

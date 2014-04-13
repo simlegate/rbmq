@@ -26,3 +26,4 @@ module Rbmq
     end
   end
 end
+  

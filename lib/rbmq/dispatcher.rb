@@ -12,27 +12,35 @@ module Rbmq
         FrameStructure::Frame.new('CONNECTED', {version: 1.0}, "\x00")
       when "SEND"
         QueueManager.current.enqueue(
-          @request_frame.headers[:destination], @response_frame)
-        Rbmq::FrameStructure::Frame.new('RECEIPT', {:'receipt-id' => general_uuid, version: 1.0}, "\x00")
+          @request_frame.headers[:destination], @request_frame)
+        FrameStructure::Frame.new('MESSAGE', {version: 1}, "\x00")
       when "SUBSCRIBE"
-        FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
+        receipt
       when "UNSUBSCRIBE"
-        FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
+        QueueManager.current.dequeue(@request_frame.headers[:destination])
+        receipt
       when "ACK"
-        FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
+        receipt
       when "NACK"
-        FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
+        receipt
       when "BEGIN"
-        FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
+        receipt
       when "COMMIT"
-        FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
+        receipt
       when "ABORT"
-        FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
+        receipt
       when "DISCONNECT"
-        FrameStructure::Frame.new('CONNECTED', {version: 1}, "\x00")
+        # close current socket connection
+        receipt
       else
         FrameStructure::Frame.new('ERROR', {version: 1.0}, "\x00")
       end
+    end
+
+    private
+    def receipt
+      Rbmq::FrameStructure::Frame.new('RECEIPT',
+        {:'receipt-id' => general_uuid, version: 1.0}, "\x00")
     end
   end
 end

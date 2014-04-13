@@ -14,7 +14,14 @@ module Rbmq
     end
 
     class << self
-      attr_accessor :current
+       attr_accessor :current
     end
+    # => def self.current
+#     @current
+#   end
+
+#   def self.current= queue_manager
+#     @current = queue_manager
+#   end
   end
 end

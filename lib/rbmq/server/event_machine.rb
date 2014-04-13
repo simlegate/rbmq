@@ -10,10 +10,10 @@ module Rbmq
         # TODO: why
         Rbmq.logger.info 'receive request from client'
         Rbmq.logger.info "\n"+data
-        response_frame = Rbmq::Dispatcher.new(Rbmq::FrameBuilder.new(data).frame).run
+        response_frame = Rbmq::Dispatcher.new(Rbmq::FrameFactory.produce_by_str(data)).run
         Rbmq.logger.info 'send response form server'
-        Rbmq.logger.info "\n"+response_frame.to_s
-        send_data response_frame.to_s
+        Rbmq.logger.info "\n"+response_frame.to_str
+        send_data response_frame.to_str
         # => close_connection if data =~ /quit/i
       end
 

@@ -26,7 +26,7 @@ module Rbmq
       end
 
       it 'should get frame' do
-        expect(frame.to_s).to eq("CONNECT\na:1\nb:2\n\n^@")
+        expect(frame.to_str).to eq("CONNECT\na:1\nb:2\n\n^@")
       end
     end
 
