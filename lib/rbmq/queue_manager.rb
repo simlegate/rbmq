@@ -13,15 +13,16 @@ module Rbmq
       @queue.enqueue dest, frame
     end
 
-    class << self
-       attr_accessor :current
+    def subscribe dest, sub_id, connection
+      @queue.subscribe dest, sub_id, connection
     end
-    # => def self.current
-#     @current
-#   end
 
-#   def self.current= queue_manager
-#     @current = queue_manager
-#   end
+    def unsubscribe dest, sub_id
+      @queue.unsubscribe dest, sub_id
+    end
+
+    class << self
+      attr_accessor :current
+    end
   end
 end

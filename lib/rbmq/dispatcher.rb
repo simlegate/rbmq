@@ -13,11 +13,17 @@ module Rbmq
       when "SEND"
         QueueManager.current.enqueue(
           @request_frame.headers[:destination], @request_frame)
-        FrameStructure::Frame.new('MESSAGE', {version: 1}, "\x00")
+        # => send msgs
+        # => EM.defer do
+        # => end
+        receipt
       when "SUBSCRIBE"
+        QueueManager.current.subscribe(@request_frame.headers[:destination],
+          @request_frame.headers[:id], @connection)
         receipt
       when "UNSUBSCRIBE"
-        QueueManager.current.dequeue(@request_frame.headers[:destination])
+        QueueManager.current.unsubscribe(@request_frame.headers[:destination],
+          @request_frame.headers[:id])
         receipt
       when "ACK"
         receipt

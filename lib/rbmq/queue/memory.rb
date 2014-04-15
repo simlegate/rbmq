@@ -1,29 +1,38 @@
 module Rbmq
   module Queue
-    class Memory
-      # @topics = {'dest1' => {enqueued: 2,
-      #                       dequeued: 5,
-      #                       messages: [frame1, frame2]},
-      #            'dest2' => {enqueued: 1,
-      #                       dequeued: 4,
-      #                       messages: [frame3]}}
-      attr_reader :topics
-      def initialize
-        set_default_topics
-        Rbmq.logger.info 'MemoryQueue initialized'
-      end
+    module Memory
+      class Runner
+        attr_reader :topics, :messages, :connections
+        def initialize
+          @messages = Mssages.new
+          @connections = Connections.new
+          Rbmq.logger.info 'MemoryQueue initialized'
+        end
 
-      def dequeue dest
-        topics[dest][:messages].shift
-      end
+        def dequeue dest
+          @messages.pop dest
+        end
 
-      def enqueue dest, frame
-        topics[dest][:messages] << frame
-      end
+        def enqueue dest, frame
+          @messages.push dest, frame
+        end
 
-      def set_default_topics
-        @topics = Hash.new do |h, k|
-          h[k] = Hash.new {|h, k| (h[k] = Array.new) if k.eql?(:messages) }
+        def subscribe dest, sub_id, connection
+          @connections.push dest, connection
+        end
+
+        def unsubscribe dest, sub_id
+          @connections.pop dest, sub_id
+        end
+
+        def send_msgs dest
+          messages = @messages.topics[dest]
+          connections = @connections.topics[dest]
+          connections.each do |connection|
+            messages.each do |message|
+              connection.send_data(message.to_str)
+            end
+          end
         end
       end
     end
