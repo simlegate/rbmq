@@ -16,7 +16,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    Rbmq::QueueManager.current = Rbmq::QueueManager.new(Rbmq::Queue::Memory.new)
+    Rbmq::QueueManager.current = Rbmq::QueueManager.new(Rbmq::Queue::Memory::Runner.new)
   end
 
   config.after(:each) do

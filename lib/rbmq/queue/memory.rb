@@ -1,11 +1,14 @@
+require_relative "memory/messages"
+require_relative "memory/connections"
+
 module Rbmq
   module Queue
     module Memory
       class Runner
-        attr_reader :topics, :messages, :connections
+        attr_reader :messages, :connections
         def initialize
-          @messages = Mssages.new
-          @connections = Connections.new
+          @messages = Memory::Messages.new
+          @connections = Memory::Connections.new
           Rbmq.logger.info 'MemoryQueue initialized'
         end
 
