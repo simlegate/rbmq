@@ -21,7 +21,7 @@ module Rbmq
         end
 
         def subscribe dest, sub_id, connection
-          @connections.push dest, connection
+          @connections.push dest, sub_id, connection
         end
 
         def unsubscribe dest, sub_id
@@ -33,7 +33,11 @@ module Rbmq
           connections = @connections.topics[dest]
           connections.each do |connection|
             messages.each do |message|
-              connection.send_data(message.to_str)
+              message.command = "MESSAGE"
+              connection[:connection].send_data(message.to_str)
+              Rbmq.logger.info "send data to #{connection[:connection]}"
+              Rbmq.logger.info "\n#{message.to_str}"
+              messages.delete(message)
             end
           end
         end

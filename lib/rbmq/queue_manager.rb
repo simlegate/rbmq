@@ -21,6 +21,10 @@ module Rbmq
       @queue.unsubscribe dest, sub_id
     end
 
+    def send_msgs dest
+      @queue.send_msgs dest
+    end
+
     class << self
       attr_accessor :current
     end

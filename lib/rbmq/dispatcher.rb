@@ -1,3 +1,4 @@
+require 'eventmachine'
 module Rbmq
   class Dispatcher
     include Utils::UUID
@@ -7,15 +8,16 @@ module Rbmq
     end
 
     def run
+      dest = @request_frame.headers[:destination]
       case @request_frame.command
       when "CONNECT"
         FrameStructure::Frame.new('CONNECTED', {version: 1.0}, "\x00")
       when "SEND"
         QueueManager.current.enqueue(
           @request_frame.headers[:destination], @request_frame)
-        # => send msgs
-        # => EM.defer do
-        # => end
+        ::EM.defer do
+          QueueManager.current.send_msgs dest
+        end
         receipt
       when "SUBSCRIBE"
         QueueManager.current.subscribe(@request_frame.headers[:destination],
