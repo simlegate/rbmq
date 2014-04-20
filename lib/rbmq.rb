@@ -1,7 +1,7 @@
-require "rbmq/version"
+require_relative "rbmq/version"
 
-require "core_ext/hash"
-require "core_ext/string"
+require_relative "core_ext/hash"
+require_relative "core_ext/string"
 
 require_relative "rbmq/utils"
 require_relative "rbmq/frame_structure"
