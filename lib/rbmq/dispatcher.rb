@@ -5,9 +5,12 @@ module Rbmq
 
     def initialize request_frame
       @request_frame = request_frame
+      @request_frame_headers = @request_frame.headers
     end
 
     def run
+      Authenticator.new(@request_frame_headers[:login],
+        @request_frame_headers[:passcode]).run
       dest = @request_frame.headers[:destination]
       case @request_frame.command
       when "CONNECT"
@@ -44,6 +47,9 @@ module Rbmq
       else
         FrameStructure::Frame.new('ERROR', {version: 1.0}, "\x00")
       end
+    rescue => e
+      Rbmq::FrameStructure::Frame.new('ERROR',
+        {}, e)
     end
 
     def connection= connection

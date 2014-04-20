@@ -12,5 +12,11 @@ module Rbmq
         "Server doesn't support the command"
       end
     end
+
+    class FailedAuth < StandardError
+      def message
+        "Auth Fail"
+      end
+    end
   end
 end
