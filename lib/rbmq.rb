@@ -17,7 +17,10 @@ require_relative "rbmq/logger"
 require_relative "rbmq/queue"
 require_relative "rbmq/queue_manager"
 
+require_relative "rbmq/cli"
+
 module Rbmq
+
   ROOT = File.expand_path("../../", __FILE__).to_s
 
   VALID_COMMAND_COLLECTIONS = %w(ERROR SEND CONNECT)
