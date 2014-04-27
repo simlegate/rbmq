@@ -9,6 +9,7 @@ module Rbmq
     end
 
     def run
+      # auth
       Authenticator.new(@request_frame_headers[:login],
         @request_frame_headers[:passcode]).run
       dest = @request_frame.headers[:destination]
@@ -16,19 +17,16 @@ module Rbmq
       when "CONNECT"
         FrameStructure::Frame.new('CONNECTED', {version: 1.0}, "\x00")
       when "SEND"
-        QueueManager.current.enqueue(
-          @request_frame.headers[:destination], @request_frame)
+        QueueManager.current.enqueue(dest, @request_frame)
         ::EM.defer do
           QueueManager.current.send_msgs dest
         end
         receipt
       when "SUBSCRIBE"
-        QueueManager.current.subscribe(@request_frame.headers[:destination],
-          @request_frame.headers[:id], @connection)
+        QueueManager.current.subscribe(dest, @request_frame.headers[:id], @connection)
         receipt
       when "UNSUBSCRIBE"
-        QueueManager.current.unsubscribe(@request_frame.headers[:destination],
-          @request_frame.headers[:id])
+        QueueManager.current.unsubscribe(dest, @request_frame.headers[:id])
         receipt
       when "ACK"
         receipt
