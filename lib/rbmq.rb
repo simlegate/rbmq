@@ -13,7 +13,6 @@ require_relative "rbmq/server"
 require_relative "rbmq/models"
 require_relative "rbmq/authenticator"
 require_relative "rbmq/dispatcher"
-require_relative "rbmq/logger"
 require_relative "rbmq/queue"
 require_relative "rbmq/queue_manager"
 
@@ -26,6 +25,8 @@ module Rbmq
   VALID_COMMAND_COLLECTIONS = %w(ERROR SEND CONNECT)
 
   def self.logger
-    Rbmq::Logger.new.instance
+    Rbmq::Logger.instance
   end
 end
+
+require_relative "rbmq/logger"
