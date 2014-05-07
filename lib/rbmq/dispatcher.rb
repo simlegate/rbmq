@@ -24,6 +24,9 @@ module Rbmq
         receipt
       when "SUBSCRIBE"
         QueueManager.current.subscribe(dest, @request_frame.headers[:id], @connection)
+        ::EM.defer do
+          QueueManager.current.send_msgs dest
+        end
         receipt
       when "UNSUBSCRIBE"
         QueueManager.current.unsubscribe(dest, @request_frame.headers[:id])
@@ -57,7 +60,7 @@ module Rbmq
     private
     def receipt
       Rbmq::FrameStructure::Frame.new('RECEIPT',
-        {:'receipt-id' => general_uuid, version: 1.0}, "\x00")
+        {:'receipt-id' => general_uuid, version: 1.0}, "\x00\r\n")
     end
   end
 end

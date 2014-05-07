@@ -20,12 +20,14 @@ require_relative "rbmq/cli"
 
 module Rbmq
 
-  ROOT = File.expand_path("../../", __FILE__).to_s
-
   VALID_COMMAND_COLLECTIONS = %w(ERROR SEND CONNECT)
 
+  def self.root
+    File.expand_path("../../", __FILE__).to_s
+  end
+
   def self.logger
-    Rbmq::Logger.instance
+    @cache_logger ||= Rbmq::Logger.instance
   end
 end
 

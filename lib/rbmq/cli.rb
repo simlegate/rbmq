@@ -24,6 +24,7 @@ module Rbmq
 
     desc "doctor", "doctor"
     def doctor
+      puts "Everything is OK"
     end
   end
 end
